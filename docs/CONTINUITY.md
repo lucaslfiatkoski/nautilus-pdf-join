@@ -17,6 +17,8 @@ Depois, o usuário solicitou a criação de um repositório público, um README 
 - Nome público: `pir0c0pter0/nautilus-pdf-join`.
 - URL: <https://github.com/pir0c0pter0/nautilus-pdf-join>.
 - Branch principal: `main`.
+- Primeira versão publicada: [`v0.1.0`](https://github.com/pir0c0pter0/nautilus-pdf-join/releases/tag/v0.1.0), commit `04cd6f3`.
+- Visibilidade confirmada no GitHub: pública. A release está publicada, sem marcação de rascunho.
 - Licença adotada: MIT.
 - Pasta de trabalho original: `$HOME/Projetos/gerenciador_noctalia`.
 - Cópia instalada: `${XDG_DATA_HOME:-$HOME/.local/share}/nautilus-python/extensions/juntar_pdfs.py`.

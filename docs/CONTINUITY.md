@@ -1,5 +1,9 @@
 # Continuidade do projeto
 
+## Ordem dos destinos — 2026-10-21
+
+O usuário pediu as opções mais utilizadas primeiro. Foram priorizados formatos comuns por categoria, sem coletar frequência de uso: imagens JPG/PNG/PDF; PDFs DOCX/JPG/PNG/texto, com Juntar PDFs primeiro nas seleções múltiplas; documentos PDF/DOCX/TXT; planilhas XLSX/PDF/CSV; vídeos MP4/MP3/GIF; compactados ZIP/7Z/TAR.GZ. Os outros destinos continuam nas páginas seguintes. A mudança é de ordenação, sem alterar os pipelines de conversão.
+
 ## Posição da roda — 2026-10-21
 
 O usuário solicitou que a roda abrisse perto do ponteiro, com captura da roda distante do arquivo selecionado. `pointer_anchor` lê a posição atual pelo GDK, confere se a superfície pertence à janela e usa a transformação da superfície e `Gtk.Widget.compute_point` para obter coordenadas na área de arquivos. O popover é deslocado em metade do diâmetro para aproximar o centro do cursor. Sem posição válida na janela, usa o centro da área de arquivos. Teste de regressão cobre deslocamento de coordenadas e fallback. As pastas abertas são registradas só para restaurar a navegação após atualizar o Nautilus, sem ler documentos.

@@ -12,6 +12,8 @@ Shift+clique e Shift+setas continuam selecionando arquivos. O círculo não abre
 
 Quando há mais de seis destinos, use **‹ / › no centro do círculo**, a roda do mouse ou Page Up / Page Down para trocar de página. Todos os destinos continuam acessíveis sem sobrepor os nomes.
 
+A primeira página prioriza formatos comuns de cada categoria: JPG/PNG/PDF para imagens; DOCX/JPG/PNG/texto para PDFs; PDF/DOCX/texto para documentos; XLSX/PDF/CSV para planilhas; MP4/MP3/GIF para vídeos. “Juntar PDFs” vem primeiro quando há vários PDFs selecionados. A ordem é fixa, sem registrar o seu histórico de uso.
+
 ![Círculo real de conversão](docs/images/circulo-formatos.png)
 
 *Captura do componente GTK renderizado com arquivo sintético.*

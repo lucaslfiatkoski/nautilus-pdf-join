@@ -20,8 +20,8 @@ gi.require_version('Graphene', '1.0')
 gi.require_version('Nautilus', '4.1')
 from gi.repository import Gdk, Gio, GLib, GObject, Graphene, Gtk, Nautilus
 
-IMAGE_OUTPUTS = ('png', 'jpg', 'webp', 'heic', 'tiff', 'avif', 'bmp', 'gif',
-                 'ico', 'jp2', 'jxl', 'qoi', 'tga', 'pdf')
+IMAGE_OUTPUTS = ('jpg', 'png', 'pdf', 'webp', 'gif', 'heic', 'tiff', 'avif',
+                 'bmp', 'ico', 'jp2', 'jxl', 'qoi', 'tga')
 AUDIO_CODECS = {'mp3': 'libmp3lame', 'm4a': 'aac', 'wav': 'pcm_s16le', 'flac': 'flac',
                 'ogg': 'libvorbis', 'opus': 'libopus', 'aiff': 'pcm_s16be',
                 'wma': 'wmav2', 'aac': 'aac'}
@@ -38,7 +38,7 @@ DOCUMENT_WRITERS = {'docx': 'docx', 'odt': 'odt', 'rtf': 'rtf', 'md': 'markdown'
 OFFICE_READERS = ('docx', 'doc', 'odt', 'rtf', 'txt', 'html', 'htm', 'pages')
 SPREADSHEETS = ('xlsx', 'ods', 'xls', 'csv', 'tsv', 'fods')
 SLIDES = ('pptx', 'ppt', 'odp')
-ARCHIVES = ('zip', 'tar', 'tar.gz', 'tar.bz2', 'tar.xz', '7z')
+ARCHIVES = ('zip', '7z', 'tar.gz', 'tar', 'tar.xz', 'tar.bz2')
 SUBTITLES = ('srt', 'vtt', 'ass', 'ssa')
 
 
@@ -384,16 +384,19 @@ def available_actions(paths):
                                for ext in ('docx', 'odt', 'rtf', 'md', 'html', 'epub'))
         if tool('pdftoppm'):
             actions.extend([('png', 'PNG'), ('jpg', 'JPG')])
-        return actions
+        priority = {kind: index for index, kind in enumerate(
+            ('join', 'docx', 'jpg', 'png', 'txt', 'odt', 'epub', 'rtf', 'md', 'html'))}
+        return sorted(actions, key=lambda action: priority.get(action[0], len(priority)))
     if category == 'image' and tool('magick'):
         return [(ext, ext.upper()) for ext in IMAGE_OUTPUTS]
     if category in ('audio', 'video') and tool('ffmpeg'):
         formats = list(AUDIO_CODECS)
         if category == 'video':
-            formats = [*VIDEO_CODECS, 'gif', *formats]
+            formats = list(dict.fromkeys(['mp4', 'mp3', 'gif', 'mov', 'mkv', 'webm',
+                                          *VIDEO_CODECS, *formats]))
         return [(ext, ext.upper()) for ext in formats]
     if category == 'subtitle' and tool('ffmpeg'):
-        return [(ext, ext.upper()) for ext in (*SUBTITLES, 'txt')]
+        return [(ext, ext.upper()) for ext in ('srt', 'vtt', 'txt', 'ass', 'ssa')]
     if category == 'archive' and tool('bsdtar'):
         return [(ext, ext.upper()) for ext in ARCHIVES]
     if category == 'document':
@@ -401,15 +404,16 @@ def available_actions(paths):
             return []
         formats = list(DOCUMENT_WRITERS) if tool('pandoc') else []
         if tool('libreoffice'):
-            formats = list(dict.fromkeys([*formats, 'docx', 'odt', 'doc', 'rtf', 'txt',
-                                         'html', 'epub', 'pdf', 'png', 'jpg']))
+            formats = list(dict.fromkeys(['pdf', 'docx', 'txt', 'odt', 'rtf', 'epub',
+                                         *formats, 'doc', 'html', 'png', 'jpg']))
         if not tool('libreoffice') and any(Path(p).suffix.lower() in ('.doc', '.pages') for p in paths):
             return []
         return [(ext, ext.upper()) for ext in formats]
     if category in ('sheet', 'slides') and tool('libreoffice'):
-        formats = SPREADSHEETS if category == 'sheet' else SLIDES
+        formats = ('xlsx', 'pdf', 'csv', 'ods', 'xls', 'tsv', *SPREADSHEETS) if category == 'sheet' else (
+            'pdf', 'pptx', 'png', 'jpg', 'ppt', 'odp')
         extras = ('pdf', 'html', 'png', 'jpg') if category == 'sheet' else ('pdf', 'png', 'jpg')
-        return [(ext, ext.upper()) for ext in (*formats, *extras)]
+        return [(ext, ext.upper()) for ext in dict.fromkeys((*formats, *extras))]
     return []
 
 

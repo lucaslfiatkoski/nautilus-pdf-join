@@ -2,6 +2,8 @@
 
 ## Em desenvolvimento — 2026-10-21
 
+- Destinos comuns de cada categoria na primeira página; Juntar PDFs permanece primeiro na seleção múltipla.
+
 - Posicionamento da roda próximo ao ponteiro, com conversão de coordenadas da janela para a área de arquivos e fallback central.
 
 - Ampliação para 345 pares reais de mídia verificados, sem aliases ou cópias no mesmo formato.

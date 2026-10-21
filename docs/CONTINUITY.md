@@ -1,5 +1,21 @@
 # Continuidade do projeto
 
+## Atualização — 2026-10-21: círculo de conversão
+
+O usuário pediu a interação do Tangerine no Nautilus, integrada à união de PDFs. Corrigiu o gesto: **selecionar arquivos e apertar Shift, sem arrastar**. Aprovou a implementação do círculo com opções conforme a seleção e preservação dos originais.
+
+Trabalho na branch `feat/circulo-shift`, em `/home/lucas/nautilus-pdf-join`. `conversor.py` contém a interface GTK4 e as conversões locais; a extensão existente carrega o módulo uma vez. Instalação e desinstalação agora tratam os dois arquivos. Não foi instalado o Tangerine original, exclusivo de macOS, nem o produto independente Open Tangerine.
+
+Conversões implementadas: imagens para PNG/JPG/WebP/AVIF/TIFF/PDF, PDF para texto/PNG/JPG, áudio para MP3/WAV/FLAC/OGG e vídeo para MP4/WebM ou áudio. A união usa o processo existente e mantém `_join.pdf`, ordenação e proteção de nomes. Office/OCR e ferramentas de edição não foram implementados.
+
+Ambiente desta sessão: CachyOS, Niri 26.04, Nautilus 50.3.1, nautilus-python 4.2.0, GTK4 4.22.5. A interface foi exercitada numa instância isolada do Nautilus, em sessão D-Bus própria, com PDFs sintéticos em `/tmp/pdf-join-wheel-check`. A roda foi renderizada e houve produção de PDF unido e PNG pela interface. Os testes automatizados cobrem conversões reais, colisões, entradas inválidas, páginas múltiplas, seleção em grade/árvore, setores e Shift sozinho versus combinações.
+
+O atalho depende do modelo interno do Nautilus. Não capturamos teclas globalmente nem modificamos a configuração do Niri. É uma implementação inicial da interação, sem equivalência de todos os formatos ou funcionalidades do Tangerine.
+
+Entrega local concluída: 20 testes passaram, `sh -n`, compilação Python e `git diff --check` passaram. A verificação da instância real confirmou círculo visível, seleção de dois PDFs, união com duas páginas e ordem correta. Uma revisão independente encontrou a ordenação lexicográfica de quadros de imagens; foi corrigida com nomes temporários de sequência preenchidos com zeros e um teste de regressão de 12 quadros.
+
+`./install.sh` foi executado e os dois arquivos instalados foram comparados com o projeto. A versão anterior de `juntar_pdfs.py` está guardada em `~/.local/share/nautilus-pdf-join/backups/antes-do-circulo-2026-10-21/`. A instância isolada de testes foi encerrada e a pasta de demonstração reaberta no Nautilus normal. Nada foi publicado no GitHub nesta etapa. A interface completa foi exercitada em grade; o modelo de seleção em árvore foi testado automaticamente. Não houve teste exaustivo de codecs ou sistemas de arquivos sem hard links.
+
 Registro da primeira publicação, em 19 de outubro de 2026. Leia este arquivo junto com o README antes de retomar o trabalho.
 
 ## Objetivo e decisões do usuário

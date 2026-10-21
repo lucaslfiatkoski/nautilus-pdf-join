@@ -2,6 +2,29 @@
 
 Junte dois ou mais PDFs pelo menu de botão direito do **Nautilus (Arquivos do GNOME)**. O resultado é criado automaticamente na pasta do primeiro PDF em ordem alfabética, com o final **`_join.pdf`**. Os arquivos originais são preservados.
 
+## Círculo de conversão com Shift
+
+Selecione um ou vários arquivos e **toque Shift e solte**, sem arrastar. Clique no formato desejado no círculo. Também é possível usar setas e Enter; Escape ou um clique fora fecham o círculo. Para vários PDFs, o círculo oferece **Juntar PDFs**, usando a mesma união e as mesmas regras do menu existente.
+
+Shift+clique e Shift+setas continuam selecionando arquivos. O círculo não abre ao usar Shift combinado com outra tecla, durante cliques ou dentro de campos de texto. Funciona nas visualizações de grade e lista do Nautilus.
+
+![Círculo real de conversão com um PDF selecionado](docs/images/circulo-formatos.png)
+
+*Captura do componente GTK renderizado na janela de demonstração com um PDF sintético.*
+
+| Seleção | Opções |
+| --- | --- |
+| Imagens | PNG, JPG, WebP, AVIF, TIFF, PDF |
+| PDF | Texto existente, PNG, JPG; Juntar PDFs quando há vários |
+| Áudio | MP3, WAV, FLAC, OGG |
+| Vídeo | MP4, WebM, MP3, WAV, FLAC, OGG |
+
+As opções dependem das ferramentas instaladas: ImageMagick (`magick`), FFmpeg e Poppler (`pdftotext`, `pdftoppm`). A disponibilidade dos codecs depende dessas ferramentas. Não há upload de arquivos nem instalação automática de dependências. Seleções de categorias diferentes não oferecem conversões.
+
+Os resultados ficam ao lado de cada original. Nomes ocupados recebem `_2`, `_3` etc.; PDFs exportados como imagens geram um arquivo por página. Conversões de imagem preservam os quadros produzidos pelo ImageMagick; formatos como JPG geram arquivos separados quando há vários quadros. JPG usa fundo branco para transparência. A publicação das conversões é exclusiva e atômica no mesmo sistema de arquivos. Em lote, falhas são informadas e os resultados já concluídos são mantidos. Cada chamada ao conversor tem limite de três minutos.
+
+Esta é uma implementação para Nautilus inspirada na interação do Tangerine, sem vínculo com o produto original. Não reproduz todas as suas funções: não há conversão de Office, OCR, roda global fora do Nautilus ou ferramentas de recorte/edição. O PDF para texto extrai texto existente, sem reconhecimento de imagens. O atalho acessa o modelo interno do Nautilus e pode precisar de adaptação após atualizações.
+
 ![Dois PDFs selecionados no Nautilus, com a opção Juntar PDFs destacada no menu de contexto](docs/images/menu-juntar-pdfs.png)
 
 *Captura real da extensão em funcionamento no CachyOS, com Niri e Noctalia. Os documentos da imagem foram criados para demonstração.*
@@ -86,6 +109,8 @@ sudo pacman -Syu --needed git nautilus nautilus-python python-gobject poppler ze
 
 O comando acima atualiza o sistema e instala os pacotes necessários. Em outras distribuições, os nomes dos pacotes podem ser diferentes; confirme também a disponibilidade da API Nautilus 4.1.
 
+Para imagens, áudio e vídeo, as dependências opcionais são `imagemagick` e `ffmpeg`. Sem elas, as opções correspondentes não aparecem no círculo. No Arch/CachyOS: `sudo pacman -S --needed imagemagick ffmpeg`.
+
 ### 2. Baixe e instale a extensão para seu usuário
 
 ```bash
@@ -94,13 +119,13 @@ cd nautilus-pdf-join
 ./install.sh
 ```
 
-Execute `install.sh` como seu usuário normal, sem `sudo`. Ele verifica os executáveis usados e a disponibilidade da API Nautilus 4.1, depois copia apenas `juntar_pdfs.py` para:
+Execute `install.sh` como seu usuário normal, sem `sudo`. Ele verifica os executáveis obrigatórios e a disponibilidade das APIs Nautilus 4.1 e GTK4, depois copia `juntar_pdfs.py` e `conversor.py` para o diretório:
 
 ```text
-~/.local/share/nautilus-python/extensions/juntar_pdfs.py
+~/.local/share/nautilus-python/extensions/
 ```
 
-Se `XDG_DATA_HOME` estiver definido, o destino será `$XDG_DATA_HOME/nautilus-python/extensions/juntar_pdfs.py`.
+Se `XDG_DATA_HOME` estiver definido, o diretório será `$XDG_DATA_HOME/nautilus-python/extensions/`.
 
 O instalador não instala pacotes do sistema e não reinicia o Nautilus. A verificação da API não substitui a instalação do carregador `nautilus-python`.
 
@@ -132,7 +157,7 @@ Reabra o Nautilus quando não houver operações de arquivos em andamento para g
 ./uninstall.sh
 ```
 
-Depois, reabra o Nautilus. O script remove somente o arquivo desta extensão no diretório de dados do usuário. Seus PDFs, outras extensões e os pacotes do sistema permanecem instalados.
+Depois, reabra o Nautilus. O script remove os dois arquivos desta extensão no diretório de dados do usuário. Seus PDFs, outras extensões e os pacotes do sistema permanecem instalados.
 
 ## Segurança dos arquivos e limites
 

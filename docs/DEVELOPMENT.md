@@ -4,6 +4,8 @@
 
 ```text
 juntar_pdfs.py              Extensão e processo de união
+conversor.py                Círculo GTK, atalho e processo de conversão
+test_conversor.py           Seleção, gesto, setores e conversões sintéticas
 install.sh                 Instalação para o usuário atual
 uninstall.sh               Remoção da extensão do usuário atual
 test_juntar_pdfs.py         Testes do comportamento e da integração
@@ -42,7 +44,7 @@ docs/images/               Capturas reais usadas no README
 
 ```bash
 python3 -m unittest -v
-python3 -m py_compile juntar_pdfs.py test_juntar_pdfs.py test_install.py
+python3 -m py_compile juntar_pdfs.py conversor.py test_conversor.py test_juntar_pdfs.py test_install.py
 sh -n install.sh uninstall.sh
 git diff --check
 ```
@@ -59,6 +61,11 @@ Para verificar a interface, crie dois PDFs de demonstração com conteúdo ident
 6. `pdfinfo` confirma a quantidade de páginas; `pdftotext` confirma a ordem dos textos de demonstração.
 
 ## Limites técnicos conhecidos
+
+- O círculo instala `Gtk.EventControllerKey` somente nas janelas `NautilusWindow`. Lê a seleção da grade ou lista com foco, incluindo linhas `Gtk.TreeListRow`, pelo campo interno `NautilusViewItem:file`. Essa parte não é um contrato público de extensões e precisa de verificação após atualizar o Nautilus.
+- Shift sozinho abre ao soltar; outra tecla ou um clique cancela o gesto. Campos editáveis e combinações com modificadores não abrem o círculo. A roda usa `Gtk.Popover`, botões acessíveis e desenho Cairo, sem captura global de teclado ou alteração do Niri.
+- O processo `conversor.py --convert FORMATO CAMINHOS...` executa ImageMagick, FFmpeg ou Poppler fora do Nautilus. Publica cada saída usando link exclusivo de um temporário na mesma pasta; exige suporte a hard links no sistema de arquivos de destino. Não há fallback inseguro para sobrescrever.
+- As conversões não são um sandbox de arquivos: os limites e suporte dos formatos são os das ferramentas instaladas. O limite de três minutos vale por chamada; lotes e PDFs com muitas páginas podem levar mais tempo no total. Cancelar/fechar o círculo não interrompe conversões já iniciadas.
 
 - A API exigida é Nautilus 4.1. Não há fallback para 4.0.
 - A mensagem de erro é gráfica; executar o arquivo diretamente como comando não é uma CLI com contrato de códigos de saída. Erros tratados por `main()` não garantem status de saída diferente de zero.

@@ -1,5 +1,6 @@
 """Ação do Nautilus para juntar PDFs locais sem substituir arquivos."""
 
+import importlib.util
 import os
 from pathlib import Path
 import shutil
@@ -11,6 +12,8 @@ import gi
 
 gi.require_version("Nautilus", "4.1")
 from gi.repository import GObject, Nautilus
+
+_shortcut_module = None
 
 
 def merge_pdfs(paths, destination):
@@ -66,6 +69,16 @@ def main(paths):
 
 
 class JuntarPdfsExtension(GObject.GObject, Nautilus.MenuProvider):
+    def __init__(self):
+        super().__init__()
+        global _shortcut_module
+        if _shortcut_module is None:
+            spec = importlib.util.spec_from_file_location(
+                '_pdf_join_conversor', Path(__file__).with_name('conversor.py'))
+            _shortcut_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(_shortcut_module)
+            _shortcut_module.install_shortcut()
+
     def get_file_items(self, files):
         if len(files) < 2:
             return []

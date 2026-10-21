@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## Em desenvolvimento — 2026-10-21
+
+- Círculo de conversão acionado por Shift sozinho, sem arrastar os arquivos.
+- Integração de Juntar PDFs ao círculo, preservando o menu e as regras anteriores.
+- Conversões locais de imagens, áudio, vídeo e PDF com as ferramentas instaladas.
+- Saídas exclusivas, sem sobrescrita, e exportação de todas as páginas dos PDFs.
+- Instalação e remoção do módulo de conversão junto com a extensão.
+
 ## 0.1.0 — 2026-10-19
 
 - Primeira publicação da extensão Nautilus PDF Join.

@@ -7,9 +7,10 @@ for dependency in python3 pdfunite zenity; do
         exit 1
     }
 done
-python3 -c 'import gi; gi.require_version("Nautilus", "4.1")'
+python3 -c 'import gi; gi.require_version("Nautilus", "4.1"); gi.require_version("Gtk", "4.0")'
 
 source_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 destination="${XDG_DATA_HOME:-$HOME/.local/share}/nautilus-python/extensions/juntar_pdfs.py"
 install -Dm644 "$source_dir/juntar_pdfs.py" "$destination"
+install -m644 "$source_dir/conversor.py" "$(dirname -- "$destination")/conversor.py"
 printf 'Instalado em %s\nReabra o Nautilus após encerrar suas operações de arquivos.\n' "$destination"

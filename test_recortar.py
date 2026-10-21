@@ -89,6 +89,16 @@ class CropTests(unittest.TestCase):
         self.assertEqual(self.module.fit_rect(200, 100, 600, 400), (0, 50, 600, 300))
         self.assertEqual(self.module.drag_rect((.8, .9), (-.1, .2)), (0, .2, .8, .7))
 
+    def test_zoom_preview_has_more_detail_without_changing_pdf_crop(self):
+        document = self.module.CropDocument(self.pdf)
+        normal = document.preview(0)
+        enlarged = document.preview(0, 3)
+        self.assertGreater(enlarged.get_width(), normal.get_width())
+        self.assertGreater(enlarged.get_height(), normal.get_height())
+        output = document.save((.25, .25, .5, .5), 0, False)
+        cropped = self.module.CropDocument(output)
+        self.assertEqual(cropped.size(0), (100, 50))
+
     def test_crop_available_only_for_single_image_or_pdf_and_not_as_conversion(self):
         import conversor
         for path in (self.image, self.pdf):
@@ -148,6 +158,25 @@ class CropTests(unittest.TestCase):
             window.drag.emit('drag-end', w / 2, h / 2)
             for actual, expected in zip(window.rectangle(), (.25, .25, .5, .5)):
                 self.assertAlmostEqual(actual, expected, places=2)
+            selected = window.rectangle()
+            for _ in range(4):
+                window.zoom_in.emit('clicked')
+                until(lambda: not window.busy)
+            until(lambda: window.canvas.get_width() > window.scroller.get_width())
+            self.assertGreater(window.zoom, 2)
+            self.assertEqual(window.rectangle(), selected)
+            # Ao rolar, o gesto continua em coordenadas locais do canvas ampliado.
+            hadj = window.scroller.get_hadjustment()
+            hadj.set_value(min(100, hadj.get_upper() - hadj.get_page_size()))
+            x, y, w, h = window.image_bounds()
+            window.drag.emit('drag-begin', x + w * .25, y + h * .25)
+            window.drag.emit('drag-update', w * .5, h * .5)
+            window.drag.emit('drag-end', w * .5, h * .5)
+            for actual, expected in zip(window.rectangle(), selected):
+                self.assertAlmostEqual(actual, expected, places=2)
+            window.zoom_fit.emit('clicked')
+            until(lambda: not window.busy and window.zoom == 1)
+            until(lambda: window.canvas.get_width() <= window.scroller.get_width())
             window.next_button.emit('clicked')
             until(lambda: window.page == 1 and not window.busy)
             window.all_pages.set_active(True)

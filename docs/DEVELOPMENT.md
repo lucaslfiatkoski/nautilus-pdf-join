@@ -66,6 +66,8 @@ Para verificar a interface, crie dois PDFs de demonstração com conteúdo ident
 
 ## Limites técnicos conhecidos
 
+- A janela de recorte coloca o canvas em `Gtk.ScrolledWindow`; o zoom varia de 0,5 a 4 em relação ao ajuste à janela. Retângulos permanecem normalizados, e eventos de arraste usam coordenadas locais do canvas, inclusive com rolagem. `CropDocument.preview(page, zoom)` aumenta a resolução do PDF até 4096 pixels por dimensão; a gravação continua usando o documento original. O teste GTK verifica ampliar, rolar, selecionar e retornar ao ajuste.
+
 - `Recortar` só aparece para um arquivo de imagem/PDF. A roda inicia `/usr/bin/python3 recortar.py CAMINHO`; o módulo não executa a interface ao ser importado pelo carregador de extensões. O instalador e o desinstalador incluem o terceiro módulo.
 - `CropDocument` usa ImageMagick para orientar/decodificar o primeiro quadro, Cairo para recortar PNG e Poppler/Cairo para redesenhar PDF com clipping. Reutiliza `_publish` para publicação exclusiva. Não instala bibliotecas Python adicionais. Poppler GI é opcional e verificado antes de oferecer recorte de PDF.
 - Retângulos são normalizados em `[0,1]` e validados antes de criar saída. A mesma área em todas as páginas é proporcional, inclusive quando tamanhos/rotações diferem. O teste `test_recortar` cobre pixels, dimensões, originais, colisões, páginas inválidas e rotação sintética com qpdf quando disponível. `RUN_WHEEL_UI=1` também testa janela, arraste, navegação e salvamento com GTK real.

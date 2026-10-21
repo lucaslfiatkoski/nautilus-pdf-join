@@ -1,5 +1,11 @@
 # Continuidade do projeto
 
+## Zoom no recorte — 2026-10-21
+
+O usuário pediu zoom no PDF dentro da janela de recorte. Foram adicionados −, + e Ajustar à janela, entre 50% e 400% do ajuste inicial, com `Gtk.ScrolledWindow` para navegação. A seleção permanece normalizada, independente do zoom/rolagem. PDFs são renderizados novamente em tarefa de fundo para aumentar o detalhe, com limite de 4096 pixels por dimensão. O zoom também funciona para imagens usando os pixels já decodificados. A mesma escala continua ao trocar de página; a área do canvas é recalculada para o tamanho da página exibida. Nenhuma dependência nova.
+
+Verificação: `RUN_WHEEL_UI=1 python3 -m unittest -v` executou 43 testes, 42 passaram e a matriz opcional foi pulada. O teste da janela emite os sinais GTK de arraste e botões para verificar zoom, rolagem, seleção e retorno ao ajuste; não automatiza o ponteiro físico. Compilação, `sh -n` e `git diff --check` passaram. Revisão independente sem defeitos concretos. Captura da janela atualizada. `./install.sh` executado e os três módulos comparados byte a byte; cópias anteriores em `~/.local/share/nautilus-pdf-join/backups/antes-do-zoom-2026-10-21/`. Basta reabrir a janela de recorte: o lançador no Nautilus não mudou.
+
 ## Recorte visual — 2026-10-21
 
 O usuário aprovou adicionar Recortar na roda para uma imagem/PDF, com janela pequena, prévia e seleção arrastável, salvando cópia. O módulo `recortar.py` abre um processo GTK separado, com controles percentuais acessíveis, restaurar área, navegação de páginas e opção de aplicar a todas. Imagens saem em PNG (primeiro quadro, orientação automática). PDFs saem em PDF por Poppler/Cairo, com clipping proporcional por página; preservam a aparência, mas não links, formulários ou assinaturas, e não devem ser usados para apagar dados sigilosos. Os limites aparecem na janela e no README. A opção fica na primeira página para seleção única; seleções múltiplas e Juntar PDFs mantêm o fluxo anterior.

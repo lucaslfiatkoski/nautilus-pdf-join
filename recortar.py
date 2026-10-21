@@ -64,11 +64,12 @@ class CropDocument:
             return self.document.get_page(page).get_size()
         return self.image.get_width(), self.image.get_height()
 
-    def preview(self, page):
+    def preview(self, page, zoom=1):
         width, height = self.size(page)
         if not self.pdf:
             return self.image
-        scale = min(1.5, 1400 / width, 1000 / height)
+        scale = min(1.5 * zoom, 1400 * zoom / width, 1000 * zoom / height,
+                    4096 / width, 4096 / height)
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
                                      max(1, math.ceil(width * scale)), max(1, math.ceil(height * scale)))
         ctx = cairo.Context(surface)
@@ -122,6 +123,7 @@ class CropWindow(Gtk.ApplicationWindow):
         self.set_resizable(False)
         self.document, self.preview_image = None, None
         self.page, self.busy, self.closed = 0, False, False
+        self.zoom = 1
         self.start = None
         self.connect('close-request', self.closing)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
@@ -129,11 +131,26 @@ class CropWindow(Gtk.ApplicationWindow):
         self.set_child(box)
         box.append(Gtk.Label(label='Arraste na prévia para escolher a área. Arraste novamente para ajustar.',
                              wrap=True, xalign=0))
-        self.canvas = Gtk.DrawingArea(content_width=420, content_height=280, hexpand=True, vexpand=True)
+        zoom_bar = Gtk.Box(spacing=8)
+        self.zoom_out = Gtk.Button(label='−', tooltip_text='Diminuir zoom')
+        self.zoom_in = Gtk.Button(label='+', tooltip_text='Aumentar zoom')
+        self.zoom_fit = Gtk.Button(label='Ajustar à janela')
+        self.zoom_label = Gtk.Label(label='100%', hexpand=True,
+                                   tooltip_text='Escala em relação à página ajustada à janela')
+        self.zoom_out.connect('clicked', lambda button: self.change_zoom(self.zoom / 1.25))
+        self.zoom_in.connect('clicked', lambda button: self.change_zoom(self.zoom * 1.25))
+        self.zoom_fit.connect('clicked', lambda button: self.change_zoom(1))
+        for widget in (self.zoom_out, self.zoom_label, self.zoom_in, self.zoom_fit):
+            zoom_bar.append(widget)
+        box.append(zoom_bar)
+        self.scroller = Gtk.ScrolledWindow(min_content_width=420, min_content_height=240,
+                                           hexpand=True, vexpand=True)
+        self.canvas = Gtk.DrawingArea(hexpand=True, vexpand=True)
         self.canvas.set_draw_func(self.draw)
         self.canvas.set_cursor_from_name('crosshair')
         self.canvas.update_property([Gtk.AccessibleProperty.LABEL], ['Prévia da área de recorte'])
-        box.append(self.canvas)
+        self.scroller.set_child(self.canvas)
+        box.append(self.scroller)
         self.drag = Gtk.GestureDrag()
         self.drag.set_button(1)
         self.drag.connect('drag-begin', self.begin)
@@ -235,6 +252,10 @@ class CropWindow(Gtk.ApplicationWindow):
         self.previous_button.set_sensitive(ready and self.page > 0)
         self.next_button.set_sensitive(ready and self.page + 1 < self.document.count)
         self.all_pages.set_sensitive(ready)
+        self.zoom_out.set_sensitive(ready and self.zoom > .5)
+        self.zoom_in.set_sensitive(ready and self.zoom < 4)
+        self.zoom_fit.set_sensitive(ready)
+        self.zoom_label.set_text(f'{self.zoom:.0%}')
         for field in self.fields:
             field.set_sensitive(ready)
         if self.document:
@@ -262,13 +283,38 @@ class CropWindow(Gtk.ApplicationWindow):
         self.status.set_text('Carregando página…')
         def shown(image):
             self.page, self.preview_image = page, image
+            self.start = None
+            self.resize_canvas()
             self.status.set_text('Escolha a área e clique em Salvar cópia.')
             self.canvas.queue_draw()
-        self.run_job(lambda: self.document.preview(page), shown)
+        self.run_job(lambda: self.document.preview(page, self.zoom), shown)
+
+    def change_zoom(self, zoom):
+        if self.busy or self.document is None:
+            return
+        zoom = min(4, max(.5, zoom))
+        if zoom == self.zoom:
+            return
+        def shown(image):
+            self.zoom, self.preview_image = zoom, image
+            self.start = None
+            self.resize_canvas()
+            self.status.set_text('Escolha a área e clique em Salvar cópia.')
+        self.status.set_text('Atualizando zoom…')
+        self.run_job(lambda: self.document.preview(self.page, zoom), shown)
+
+    def resize_canvas(self):
+        width, height = self.document.size(self.page)
+        _, _, w, h = fit_rect(width, height, self.scroller.get_width(), self.scroller.get_height())
+        self.canvas.set_content_width(math.ceil(w * self.zoom) if self.zoom > 1 else 0)
+        self.canvas.set_content_height(math.ceil(h * self.zoom) if self.zoom > 1 else 0)
+        self.canvas.queue_draw()
 
     def image_bounds(self):
-        return fit_rect(self.preview_image.get_width(), self.preview_image.get_height(),
-                        self.canvas.get_width(), self.canvas.get_height())
+        width, height = self.document.size(self.page)
+        _, _, w, h = fit_rect(width, height, self.scroller.get_width(), self.scroller.get_height())
+        w, h = w * self.zoom, h * self.zoom
+        return (self.canvas.get_width() - w) / 2, (self.canvas.get_height() - h) / 2, w, h
 
     def begin(self, gesture, x, y):
         self.start = None

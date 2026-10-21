@@ -20,6 +20,18 @@ A primeira página prioriza formatos comuns de cada categoria: JPG/PNG/PDF para 
 
 *Captura do componente GTK renderizado com arquivo sintético.*
 
+### Recortar imagens e PDFs
+
+Selecione **um arquivo**, toque e solte Shift e escolha **Recortar**, na primeira página da roda. Uma janela pequena mostra a prévia: arraste para marcar a área que deseja manter. Arrastar novamente refaz a seleção; os campos de posição e tamanho em porcentagem permitem ajustes pelo teclado. **Restaurar área** volta ao arquivo inteiro.
+
+Em PDFs, navegue por **Anterior / Próxima**. Por padrão, só a página exibida recebe o recorte; marque **Aplicar a mesma área proporcional a todas as páginas** para recortar o documento inteiro. Em páginas de tamanhos diferentes, a seleção usa a mesma proporção em cada página.
+
+**Salvar cópia** cria `<nome>_recorte.pdf` ou `<nome>_recorte.png` na pasta do original. Nomes ocupados recebem `_2`, `_3` etc. O original fica intacto. Fechar a janela sem salvar não cria resultado; uma gravação já iniciada termina mesmo se a janela for fechada.
+
+Imagens são orientadas conforme a informação de rotação e salvas como PNG; em animações e imagens com várias páginas, só o primeiro quadro é recortado. PDFs são redesenhados com Poppler/Cairo, mantendo a aparência das páginas, mas sem preservar links, formulários ou assinaturas digitais. O recorte é visual e **não deve ser usado para apagar dados sigilosos**. A prévia e a gravação ocorrem fora do processo do Nautilus. A opção de PDF exige a API introspectável Poppler 0.18; se estiver ausente, as demais conversões continuam disponíveis.
+
+![Janela real de recorte com PDF sintético](docs/images/recorte-pdf.png)
+
 | Seleção | Opções |
 | --- | --- |
 | Imagens | PNG, JPG, WebP, HEIC, TIFF, AVIF, BMP, GIF, ICO, JP2, JXL, QOI, TGA, PDF; SVG também é aceito como entrada |
@@ -38,7 +50,7 @@ As opções dependem de ImageMagick, FFmpeg, Poppler, Pandoc, LibreOffice e liba
 
 Os resultados ficam ao lado de cada original. Nomes ocupados recebem `_2`, `_3` etc.; PDFs exportados como imagens geram um arquivo por página. Conversões de imagem preservam os quadros produzidos pelo ImageMagick; formatos como JPG geram arquivos separados quando há vários quadros. JPG usa fundo branco para transparência. A publicação das conversões é exclusiva e atômica no mesmo sistema de arquivos. Em lote, falhas são informadas e os resultados já concluídos são mantidos. Cada chamada ao conversor tem limite de três minutos.
 
-Esta é uma implementação para Nautilus inspirada na interação do Tangerine, sem vínculo com o produto original. Não há OCR, exportação para Apple Pages, roda global fora do Nautilus ou ferramentas de recorte/edição. **PDF → DOCX e outros documentos extrai texto existente e não reconstrói o layout**; os destinos estão marcados com “texto” no círculo. Conversões entre formatos de documentos podem alterar formatação ou recursos específicos. PDFs escaneados precisam de OCR, não implementado. A exportação de planilhas para CSV/TSV cria um arquivo por aba, preservando as abas restantes como arquivos separados. O atalho acessa o modelo interno do Nautilus e pode precisar de adaptação após atualizações.
+Esta é uma implementação para Nautilus inspirada na interação do Tangerine, sem vínculo com o produto original. Não há OCR, exportação para Apple Pages, roda global fora do Nautilus ou edição do texto de PDFs. **PDF → DOCX e outros documentos extrai texto existente e não reconstrói o layout**; os destinos estão marcados com “texto” no círculo. Conversões entre formatos de documentos podem alterar formatação ou recursos específicos. PDFs escaneados precisam de OCR, não implementado. A exportação de planilhas para CSV/TSV cria um arquivo por aba, preservando as abas restantes como arquivos separados. O atalho acessa o modelo interno do Nautilus e pode precisar de adaptação após atualizações.
 
 ![Dois PDFs selecionados no Nautilus, com a opção Juntar PDFs destacada no menu de contexto](docs/images/menu-juntar-pdfs.png)
 
@@ -106,9 +118,9 @@ A versão atual requer Linux, Nautilus com a API de extensões **4.1** e Python 
 | nautilus-python | Carregamento da extensão Python | 4.2.0 |
 | Python | Execução da extensão e do processo de união | 3.14.8 |
 | PyGObject | Acesso às APIs GObject/Nautilus | 3.58.1 |
-| Poppler (`pdfunite`) | União dos PDFs | 26.08.0 |
+| Poppler (`pdfunite` e API introspectável) | União, prévia e recorte dos PDFs | 26.08.0 |
 | Zenity | Exibição de erros | 4.2.2 |
-| Pycairo | Criação dos PDFs de teste; somente desenvolvimento | 1.29.2 |
+| Pycairo | Desenho da roda, recorte e PDFs de teste | 1.29.2 |
 
 Essas versões foram verificadas no CachyOS, em 19 de outubro de 2026. Outras distribuições e versões não foram testadas. O código exige explicitamente `Nautilus 4.1`; instalações que oferecem somente a API `4.0` precisam de adaptação antes de usar esta versão. Não há integração com Dolphin, Thunar ou Nemo.
 
@@ -119,7 +131,7 @@ Essas versões foram verificadas no CachyOS, em 19 de outubro de 2026. Outras di
 No Arch Linux ou CachyOS:
 
 ```bash
-sudo pacman -Syu --needed git nautilus nautilus-python python-gobject poppler zenity
+sudo pacman -Syu --needed git nautilus nautilus-python python-gobject python-cairo poppler zenity
 ```
 
 O comando acima atualiza o sistema e instala os pacotes necessários. Em outras distribuições, os nomes dos pacotes podem ser diferentes; confirme também a disponibilidade da API Nautilus 4.1.
@@ -136,7 +148,7 @@ cd nautilus-pdf-join
 ./install.sh
 ```
 
-Execute `install.sh` como seu usuário normal, sem `sudo`. Ele verifica os executáveis obrigatórios e a disponibilidade das APIs Nautilus 4.1 e GTK4, depois copia `juntar_pdfs.py` e `conversor.py` para o diretório:
+Execute `install.sh` como seu usuário normal, sem `sudo`. Ele verifica os executáveis obrigatórios, Pycairo e a disponibilidade das APIs Nautilus 4.1 e GTK4, depois copia `juntar_pdfs.py`, `conversor.py` e `recortar.py` para o diretório:
 
 ```text
 ~/.local/share/nautilus-python/extensions/
@@ -230,10 +242,9 @@ Observe as mensagens no terminal. Ao abrir uma issue, informe sua distribuição
 
 ## Desenvolvimento e testes
 
-No Arch/CachyOS, adicione a dependência de testes:
+Com as dependências instaladas, execute:
 
 ```bash
-sudo pacman -S --needed python-cairo
 python3 -m unittest -v
 ```
 

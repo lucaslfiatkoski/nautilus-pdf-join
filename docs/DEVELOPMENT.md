@@ -5,6 +5,8 @@
 ```text
 juntar_pdfs.py              Extensão e processo de união
 conversor.py                Círculo GTK, atalho e processo de conversão
+recortar.py                 Janela GTK e recorte visual de imagem/PDF
+test_recortar.py            Pixels, páginas, coordenadas e janela real opcional
 test_conversor.py           Seleção, gesto, setores e conversões sintéticas
 test_conversion_matrix.py   Matriz opcional de 345 pares de mídia
 test_wheel_ui.py            Paginação no componente GTK real, opcional
@@ -46,7 +48,7 @@ docs/images/               Capturas reais usadas no README
 
 ```bash
 python3 -m unittest -v
-python3 -m py_compile juntar_pdfs.py conversor.py test_conversor.py test_juntar_pdfs.py test_install.py
+python3 -m py_compile juntar_pdfs.py conversor.py recortar.py test_recortar.py test_conversor.py test_juntar_pdfs.py test_install.py
 sh -n install.sh uninstall.sh
 git diff --check
 ```
@@ -63,6 +65,11 @@ Para verificar a interface, crie dois PDFs de demonstração com conteúdo ident
 6. `pdfinfo` confirma a quantidade de páginas; `pdftotext` confirma a ordem dos textos de demonstração.
 
 ## Limites técnicos conhecidos
+
+- `Recortar` só aparece para um arquivo de imagem/PDF. A roda inicia `/usr/bin/python3 recortar.py CAMINHO`; o módulo não executa a interface ao ser importado pelo carregador de extensões. O instalador e o desinstalador incluem o terceiro módulo.
+- `CropDocument` usa ImageMagick para orientar/decodificar o primeiro quadro, Cairo para recortar PNG e Poppler/Cairo para redesenhar PDF com clipping. Reutiliza `_publish` para publicação exclusiva. Não instala bibliotecas Python adicionais. Poppler GI é opcional e verificado antes de oferecer recorte de PDF.
+- Retângulos são normalizados em `[0,1]` e validados antes de criar saída. A mesma área em todas as páginas é proporcional, inclusive quando tamanhos/rotações diferem. O teste `test_recortar` cobre pixels, dimensões, originais, colisões, páginas inválidas e rotação sintética com qpdf quando disponível. `RUN_WHEEL_UI=1` também testa janela, arraste, navegação e salvamento com GTK real.
+- Prévia e salvamento usam uma thread por tarefa, sequencialmente, e atualizam GTK por `GLib.idle_add`. Fechar não interrompe uma gravação já iniciada. Imagens grandes são decodificadas inteiras em memória. O recorte não é redação de dados; PDF redesenhado perde recursos interativos e assinaturas. A interface informa esses limites e que imagens de vários quadros usam só o primeiro.
 
 - O círculo pagina os destinos de seis em seis. `action_page` é compartilhado pela navegação dos botões, rolagem e Page Up/Page Down. O teste GTK verifica navegação e renderização com um popover real sem grab modal, pois a automação não recebe um serial de evento físico do Wayland.
 - Para verificar a matriz completa: `RUN_CONVERSION_MATRIX=1 CONVERSION_MATRIX_REPORT=/tmp/matriz.json python3 -m unittest -v test_conversion_matrix`. São 183 pares de imagens, 72 de áudio e 90 de vídeo, todos convertidos e reabertos pelo decodificador. Não entram aliases nem origem=destino. O relatório desta sessão está em `docs/conversoes-verificadas.json`.

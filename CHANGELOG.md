@@ -2,6 +2,9 @@
 
 ## Em desenvolvimento — 2026-10-21
 
+- Recortar uma imagem ou PDF pela roda: janela com prévia, seleção arrastável e ajustes em porcentagem; cópia exclusiva PNG/PDF.
+- Recorte da página atual ou de todas as páginas do PDF, proporcional ao tamanho de cada uma, com processamento fora do Nautilus.
+
 - Destinos comuns de cada categoria na primeira página; Juntar PDFs permanece primeiro na seleção múltipla.
 
 - Posicionamento da roda próximo ao ponteiro, com conversão de coordenadas da janela para a área de arquivos e fallback central.

@@ -49,7 +49,7 @@ class WheelUiTests(unittest.TestCase):
                     self.assertLessEqual(len(wheel.buttons),6)
                     wheel.change_page(1)
                     self.assertEqual(wheel.page,2)
-                    self.assertEqual(len(wheel.actions),2)
+                    self.assertEqual(len(wheel.actions),3)
                     wheel.change_page(1)
                     self.assertEqual(wheel.actions,first)
                     state['checked'] = True

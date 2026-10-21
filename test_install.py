@@ -18,6 +18,8 @@ class InstallationTests(unittest.TestCase):
                 self.assertEqual(destination.read_bytes(), (project / "juntar_pdfs.py").read_bytes())
                 self.assertEqual(destination.with_name('conversor.py').read_bytes(),
                                  (project / 'conversor.py').read_bytes())
+                self.assertEqual(destination.with_name('recortar.py').read_bytes(),
+                                 (project / 'recortar.py').read_bytes())
             unrelated = destination.with_name("outra_extensao.py")
             unrelated.write_text("preservar")
             for _ in range(2):
@@ -25,6 +27,7 @@ class InstallationTests(unittest.TestCase):
                                check=True, capture_output=True)
                 self.assertFalse(destination.exists())
                 self.assertFalse(destination.with_name('conversor.py').exists())
+                self.assertFalse(destination.with_name('recortar.py').exists())
                 self.assertEqual(unrelated.read_text(), "preservar")
 
 

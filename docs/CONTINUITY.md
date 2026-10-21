@@ -1,5 +1,13 @@
 # Continuidade do projeto
 
+## Recorte visual — 2026-10-21
+
+O usuário aprovou adicionar Recortar na roda para uma imagem/PDF, com janela pequena, prévia e seleção arrastável, salvando cópia. O módulo `recortar.py` abre um processo GTK separado, com controles percentuais acessíveis, restaurar área, navegação de páginas e opção de aplicar a todas. Imagens saem em PNG (primeiro quadro, orientação automática). PDFs saem em PDF por Poppler/Cairo, com clipping proporcional por página; preservam a aparência, mas não links, formulários ou assinaturas, e não devem ser usados para apagar dados sigilosos. Os limites aparecem na janela e no README. A opção fica na primeira página para seleção única; seleções múltiplas e Juntar PDFs mantêm o fluxo anterior.
+
+O recorte reutiliza `_publish`, preservando originais e arquivos existentes. Campos e navegação são bloqueados durante o processamento; carregamento e gravação usam tarefas fora do laço GTK. Dependências já presentes: ImageMagick, Cairo e Poppler GI. Nenhuma dependência foi instalada. Instalação/remoção e testes foram ampliados para o novo módulo. Testes usam apenas arquivos sintéticos.
+
+Verificação: `RUN_WHEEL_UI=1 python3 -m unittest -v` executou 42 testes: 41 passaram e a matriz opcional de mídia foi pulada. Teste de instalação repetido após incluir a verificação de Pycairo; compilação, `sh -n` e `git diff --check` passaram. Revisão independente não encontrou defeitos funcionais ou de preservação de arquivos. Capturas reais atualizadas em `docs/images/`. `./install.sh` sincronizou os três módulos, comparados byte a byte; backup anterior em `~/.local/share/nautilus-pdf-join/backups/antes-do-recorte-2026-10-21/`. Nautilus reaberto e a janela instalada foi confirmada visível e flutuante no Niri, com PDF sintético de duas páginas. Logs tiveram avisos do ambiente gráfico/Vulkan, sem traceback da extensão ou da janela. Nenhum documento particular foi usado.
+
 ## Novo repositório — 2026-10-21
 
 O usuário autorizou criar um repositório público na conta conectada após o envio ao projeto original retornar HTTP 403. O novo destino é `https://github.com/lucaslfiatkoski/nautilus-pdf-join`, com a versão atual na branch `main`. O remoto original foi preservado como `upstream`; `origin` aponta para o novo repositório. O histórico e a licença foram preservados, e o comando de instalação do README aponta para a nova cópia. Nenhum comportamento do código mudou nesta publicação.

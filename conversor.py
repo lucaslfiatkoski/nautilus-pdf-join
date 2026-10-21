@@ -186,7 +186,8 @@ class FormatWheel:
             button = Gtk.Button(label=label)
             button.set_size_request(86, 44)
             button.add_css_class('wheel-choice')
-            button.set_tooltip_text('Unir os PDFs selecionados' if kind == 'join' else f'Converter para {label}')
+            button.set_tooltip_text('Selecionar uma área e salvar uma cópia' if kind == 'crop' else
+                                    'Unir os PDFs selecionados' if kind == 'join' else f'Converter para {label}')
             button.connect('clicked', lambda button, i=index: self.activate(i))
             button.connect('notify::has-focus', self.button_focus, index)
             self.fixed.put(button, 160 + 108 * math.cos(angle) - 43,
@@ -275,6 +276,8 @@ class FormatWheel:
         self.popover.popdown()
         if kind == 'join':
             command = ['/usr/bin/python3', str(Path(__file__).with_name('juntar_pdfs.py')), *self.paths]
+        elif kind == 'crop':
+            command = ['/usr/bin/python3', str(Path(__file__).with_name('recortar.py')), *self.paths]
         else:
             command = ['/usr/bin/python3', str(Path(__file__).resolve()), '--convert', kind, *self.paths]
         try:
@@ -386,9 +389,15 @@ def available_actions(paths):
             actions.extend([('png', 'PNG'), ('jpg', 'JPG')])
         priority = {kind: index for index, kind in enumerate(
             ('join', 'docx', 'jpg', 'png', 'txt', 'odt', 'epub', 'rtf', 'md', 'html'))}
-        return sorted(actions, key=lambda action: priority.get(action[0], len(priority)))
+        actions = sorted(actions, key=lambda action: priority.get(action[0], len(priority)))
+        if len(paths) == 1 and crop_pdf_available():
+            actions.insert(min(4, len(actions)), ('crop', 'Recortar'))
+        return actions
     if category == 'image' and tool('magick'):
-        return [(ext, ext.upper()) for ext in IMAGE_OUTPUTS]
+        actions = [(ext, ext.upper()) for ext in IMAGE_OUTPUTS]
+        if len(paths) == 1:
+            actions.insert(3, ('crop', 'Recortar'))
+        return actions
     if category in ('audio', 'video') and tool('ffmpeg'):
         formats = list(AUDIO_CODECS)
         if category == 'video':
@@ -415,6 +424,14 @@ def available_actions(paths):
         extras = ('pdf', 'html', 'png', 'jpg') if category == 'sheet' else ('pdf', 'png', 'jpg')
         return [(ext, ext.upper()) for ext in dict.fromkeys((*formats, *extras))]
     return []
+
+
+def crop_pdf_available():
+    try:
+        gi.require_version('Poppler', '0.18')
+        return True
+    except ValueError:
+        return False
 
 
 def _run(command):
@@ -560,7 +577,7 @@ def _archive(source, kind, target):
 
 def convert_files(kind, paths):
     paths = [Path(p).absolute() for p in paths]
-    if kind == 'join' or kind not in dict(available_actions(paths)):
+    if kind in ('join', 'crop') or kind not in dict(available_actions(paths)):
         raise ValueError('Essa conversão não está disponível para a seleção.')
     outputs, errors = [], []
     for path in paths:

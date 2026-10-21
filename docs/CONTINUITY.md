@@ -1,5 +1,19 @@
 # Continuidade do projeto
 
+## Ampliação das conversões — 2026-10-21
+
+Após a primeira instalação, o usuário pediu a variedade do Tangerine original, com mais de 200 conversões. A ampliação mantém o gesto seleciona + Shift sozinho, sem arrastar, e o círculo agora tem páginas de seis destinos. Troca de página por ‹/› no centro, roda do mouse ou Page Up/Page Down.
+
+Implementados novos formatos de imagem/áudio/vídeo e pipelines de documentos, e-books, planilhas, slides, legendas e compactados. A matriz opcional executou **345 pares reais de mídia** (183 imagem, 72 áudio, 90 vídeo), convertendo e reabrindo cada resultado. O arquivo `docs/conversoes-verificadas.json` registra os pares; os testes adicionais cobrem as demais famílias.
+
+Pandoc 3.12.1 e LibreOffice 26.8.1 foram instalados por usuário em `~/.local/opt/`, com links `~/.local/bin/pandoc` e `~/.local/bin/libreoffice`. Downloads oficiais tiveram SHA-256 verificado e origem registrada em `SOURCE.txt`. A tentativa de instalar LibreOffice pelo pacman falhou em espelhos/assinaturas e não alterou pacotes; não foram desativadas verificações. Não é necessário instalar os 269 pacotes de dependências Haskell do pandoc-cli para usar o binário oficial estático.
+
+Limites mantidos explícitos: PDF para documentos é extração de texto, sem reconstrução do layout nem OCR; não há exportação para Apple Pages. Perfis do LibreOffice são isolados, com macros bloqueadas; o perfil pessoal não é usado. Arquivos e nomes existentes continuam preservados.
+
+A revisão independente identificou uma opção de documento que podia depender de Pandoc ausente. Foi corrigida com filtragem do pipeline e erro legível; teste de regressão adicionado. O teste visual GTK usa um popover real sem grab modal para não depender de serial físico Wayland; a navegação pelas três páginas foi validada.
+
+Verificação final: `RUN_WHEEL_UI=1 python3 -m unittest -v` executou 34 testes: 33 passaram e a matriz opcional foi marcada como pulada nessa execução, pois já havia passado separadamente com os 345 pares. Compilação Python, scripts de instalação e `git diff --check` também passaram. `./install.sh` sincronizou os dois arquivos e as cópias foram comparadas byte a byte. O Nautilus normal foi reaberto na pasta de demonstração. A versão instalada anterior está em `~/.local/share/nautilus-pdf-join/backups/antes-de-ampliar-conversoes-2026-10-21/`. Não houve publicação no GitHub.
+
 ## Atualização — 2026-10-21: círculo de conversão
 
 O usuário pediu a interação do Tangerine no Nautilus, integrada à união de PDFs. Corrigiu o gesto: **selecionar arquivos e apertar Shift, sem arrastar**. Aprovou a implementação do círculo com opções conforme a seleção e preservação dos originais.

@@ -6,6 +6,8 @@
 juntar_pdfs.py              Extensão e processo de união
 conversor.py                Círculo GTK, atalho e processo de conversão
 test_conversor.py           Seleção, gesto, setores e conversões sintéticas
+test_conversion_matrix.py   Matriz opcional de 345 pares de mídia
+test_wheel_ui.py            Paginação no componente GTK real, opcional
 install.sh                 Instalação para o usuário atual
 uninstall.sh               Remoção da extensão do usuário atual
 test_juntar_pdfs.py         Testes do comportamento e da integração
@@ -61,6 +63,12 @@ Para verificar a interface, crie dois PDFs de demonstração com conteúdo ident
 6. `pdfinfo` confirma a quantidade de páginas; `pdftotext` confirma a ordem dos textos de demonstração.
 
 ## Limites técnicos conhecidos
+
+- O círculo pagina os destinos de seis em seis. `action_page` é compartilhado pela navegação dos botões, rolagem e Page Up/Page Down. O teste GTK verifica navegação e renderização com um popover real sem grab modal, pois a automação não recebe um serial de evento físico do Wayland.
+- Para verificar a matriz completa: `RUN_CONVERSION_MATRIX=1 CONVERSION_MATRIX_REPORT=/tmp/matriz.json python3 -m unittest -v test_conversion_matrix`. São 183 pares de imagens, 72 de áudio e 90 de vídeo, todos convertidos e reabertos pelo decodificador. Não entram aliases nem origem=destino. O relatório desta sessão está em `docs/conversoes-verificadas.json`.
+- Para verificar a interface: `RUN_WHEEL_UI=1 python3 -m unittest -v test_wheel_ui`. Esses dois testes são opcionais na execução padrão. A suíte normal verifica DOCX/HTML com imagem embutida, DOCX/PDF, todos os slides de PPTX e todas as abas de XLSX em CSV.
+- Pandoc usa `--sandbox`, sem filtros externos. LibreOffice usa um perfil temporário próprio com segurança de macros no nível 3, sem mexer no perfil pessoal. CSV/TSV usam UTF-8 e exportação de todas as abas; a importação não avalia fórmulas vindas desses formatos de texto. O libarchive reempacota entradas sem extraí-las na pasta do usuário.
+- PDF → DOCX/ODT/RTF/Markdown/HTML/EPUB passa pelo texto extraído do Poppler e não reconstitui o layout. Não há OCR nem exportação para Apple Pages. Formatação e recursos sem equivalência podem mudar ao converter documentos.
 
 - O círculo instala `Gtk.EventControllerKey` somente nas janelas `NautilusWindow`. Lê a seleção da grade ou lista com foco, incluindo linhas `Gtk.TreeListRow`, pelo campo interno `NautilusViewItem:file`. Essa parte não é um contrato público de extensões e precisa de verificação após atualizar o Nautilus.
 - Shift sozinho abre ao soltar; outra tecla ou um clique cancela o gesto. Campos editáveis e combinações com modificadores não abrem o círculo. A roda usa `Gtk.Popover`, botões acessíveis e desenho Cairo, sem captura global de teclado ou alteração do Niri.

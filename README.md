@@ -8,22 +8,31 @@ Selecione um ou vários arquivos e **toque Shift e solte**, sem arrastar. Clique
 
 Shift+clique e Shift+setas continuam selecionando arquivos. O círculo não abre ao usar Shift combinado com outra tecla, durante cliques ou dentro de campos de texto. Funciona nas visualizações de grade e lista do Nautilus.
 
-![Círculo real de conversão com um PDF selecionado](docs/images/circulo-formatos.png)
+Quando há mais de seis destinos, use **‹ / › no centro do círculo**, a roda do mouse ou Page Up / Page Down para trocar de página. Todos os destinos continuam acessíveis sem sobrepor os nomes.
 
-*Captura do componente GTK renderizado na janela de demonstração com um PDF sintético.*
+![Círculo real de conversão](docs/images/circulo-formatos.png)
+
+*Captura do componente GTK renderizado com arquivo sintético.*
 
 | Seleção | Opções |
 | --- | --- |
-| Imagens | PNG, JPG, WebP, AVIF, TIFF, PDF |
-| PDF | Texto existente, PNG, JPG; Juntar PDFs quando há vários |
-| Áudio | MP3, WAV, FLAC, OGG |
-| Vídeo | MP4, WebM, MP3, WAV, FLAC, OGG |
+| Imagens | PNG, JPG, WebP, HEIC, TIFF, AVIF, BMP, GIF, ICO, JP2, JXL, QOI, TGA, PDF; SVG também é aceito como entrada |
+| PDF | Texto, PNG, JPG, DOCX/ODT/RTF/Markdown/HTML/EPUB de texto; Juntar PDFs quando há vários |
+| Áudio | MP3, M4A, WAV, FLAC, OGG, Opus, AIFF, WMA, AAC |
+| Vídeo | MP4, MOV, MKV, WebM, AVI, WMV, GIF e extração para os formatos de áudio acima |
+| Documentos e e-books | DOCX, ODT, DOC, RTF, Markdown, TXT, HTML, EPUB, reStructuredText, LaTeX, Org, FB2; PDF e imagens por página |
+| Planilhas | XLSX, ODS, XLS, CSV, TSV, FODS, PDF, HTML e imagens por página |
+| Apresentações | PPTX, PPT, ODP, PDF, PNG, JPG |
+| Legendas | SRT, VTT, ASS, SSA, TXT |
+| Compactados | ZIP, TAR, TAR.GZ, TAR.BZ2, TAR.XZ, 7Z; RAR também é aceito como entrada |
 
-As opções dependem das ferramentas instaladas: ImageMagick (`magick`), FFmpeg e Poppler (`pdftotext`, `pdftoppm`). A disponibilidade dos codecs depende dessas ferramentas. Não há upload de arquivos nem instalação automática de dependências. Seleções de categorias diferentes não oferecem conversões.
+Foram executados e reabertos **345 pares distintos de entrada → saída** de imagens, áudio e vídeo, sem contar aliases nem conversões para o formato de origem. A verificação usa arquivos sintéticos pequenos; não é uma garantia para todo codec ou arquivo. Os resultados estão em [conversoes-verificadas.json](docs/conversoes-verificadas.json). Documentos, planilhas, slides, legendas e compactados têm verificações adicionais na suíte.
+
+As opções dependem de ImageMagick, FFmpeg, Poppler, Pandoc, LibreOffice e libarchive (`bsdtar`). A disponibilidade dos codecs depende dessas ferramentas. O conversor não envia os arquivos para um serviço de conversão nem instala dependências automaticamente. Seleções de categorias diferentes não oferecem conversões. A extração de áudio exige que o vídeo contenha uma faixa de áudio.
 
 Os resultados ficam ao lado de cada original. Nomes ocupados recebem `_2`, `_3` etc.; PDFs exportados como imagens geram um arquivo por página. Conversões de imagem preservam os quadros produzidos pelo ImageMagick; formatos como JPG geram arquivos separados quando há vários quadros. JPG usa fundo branco para transparência. A publicação das conversões é exclusiva e atômica no mesmo sistema de arquivos. Em lote, falhas são informadas e os resultados já concluídos são mantidos. Cada chamada ao conversor tem limite de três minutos.
 
-Esta é uma implementação para Nautilus inspirada na interação do Tangerine, sem vínculo com o produto original. Não reproduz todas as suas funções: não há conversão de Office, OCR, roda global fora do Nautilus ou ferramentas de recorte/edição. O PDF para texto extrai texto existente, sem reconhecimento de imagens. O atalho acessa o modelo interno do Nautilus e pode precisar de adaptação após atualizações.
+Esta é uma implementação para Nautilus inspirada na interação do Tangerine, sem vínculo com o produto original. Não há OCR, exportação para Apple Pages, roda global fora do Nautilus ou ferramentas de recorte/edição. **PDF → DOCX e outros documentos extrai texto existente e não reconstrói o layout**; os destinos estão marcados com “texto” no círculo. Conversões entre formatos de documentos podem alterar formatação ou recursos específicos. PDFs escaneados precisam de OCR, não implementado. A exportação de planilhas para CSV/TSV cria um arquivo por aba, preservando as abas restantes como arquivos separados. O atalho acessa o modelo interno do Nautilus e pode precisar de adaptação após atualizações.
 
 ![Dois PDFs selecionados no Nautilus, com a opção Juntar PDFs destacada no menu de contexto](docs/images/menu-juntar-pdfs.png)
 
@@ -109,7 +118,9 @@ sudo pacman -Syu --needed git nautilus nautilus-python python-gobject poppler ze
 
 O comando acima atualiza o sistema e instala os pacotes necessários. Em outras distribuições, os nomes dos pacotes podem ser diferentes; confirme também a disponibilidade da API Nautilus 4.1.
 
-Para imagens, áudio e vídeo, as dependências opcionais são `imagemagick` e `ffmpeg`. Sem elas, as opções correspondentes não aparecem no círculo. No Arch/CachyOS: `sudo pacman -S --needed imagemagick ffmpeg`.
+As dependências opcionais são `imagemagick`, `ffmpeg`, `libarchive`, `pandoc-cli` e `libreoffice-fresh` nos repositórios Arch/CachyOS. Sem uma ferramenta, as opções que precisam dela não aparecem. O conversor também procura executáveis em `~/.local/bin`, útil para instalações oficiais por usuário.
+
+Nesta instalação, Pandoc 3.12.1 e LibreOffice 26.8.1 foram obtidos das distribuições oficiais, com SHA-256 conferido, em `~/.local/opt/` e links em `~/.local/bin/`. Os arquivos `SOURCE.txt` nessas pastas registram origem e checksum; atualizações dessas ferramentas são manuais. Nenhuma verificação de assinatura do gerenciador de pacotes foi desativada.
 
 ### 2. Baixe e instale a extensão para seu usuário
 

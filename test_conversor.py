@@ -3,6 +3,8 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+import zipfile
+from unittest.mock import patch
 
 import cairo
 import gi
@@ -131,6 +133,151 @@ class ConversionTests(unittest.TestCase):
             expected = cairo.ImageSurface.create_from_png(str(original))
             actual = cairo.ImageSurface.create_from_png(str(converted))
             self.assertEqual(bytes(actual.get_data()), bytes(expected.get_data()))
+
+    def test_expanded_image_and_audio_formats_are_available(self):
+        image_actions = dict(self.module.available_actions([self.image]))
+        for kind in ('heic', 'bmp', 'gif', 'ico', 'jp2', 'jxl', 'qoi', 'tga'):
+            self.assertIn(kind, image_actions)
+        audio = self.folder / 'audio.wav'
+        subprocess.run(['ffmpeg', '-v', 'error', '-f', 'lavfi', '-i',
+                        'sine=duration=0.1', str(audio)], check=True)
+        for kind in ('m4a', 'opus', 'aiff', 'wma', 'aac'):
+            self.assertIn(kind, dict(self.module.available_actions([audio])))
+            result = self.module.convert_files(kind, [audio])[0]
+            info = subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries',
+                'stream=codec_type', '-of', 'default=noprint_wrappers=1:nokey=1', str(result)], text=True)
+            self.assertIn('audio', info)
+
+    def test_wheel_pages_include_every_format_and_wrap(self):
+        actions = [(x, x.upper()) for x in ('png','jpg','webp','avif','bmp','heic','ico','tiff','pdf')]
+        first, page, count = self.module.action_page(actions, 0)
+        second, page2, count2 = self.module.action_page(actions, 1)
+        self.assertEqual(first + second, actions)
+        self.assertEqual((page, count, page2, count2), (0, 2, 1, 2))
+        self.assertEqual(self.module.action_page(actions, 2)[0], first)
+        self.assertEqual(self.module.action_page(actions, -1)[0], second)
+        self.assertLessEqual(len(first), 6)
+
+    def test_markdown_word_epub_and_pdf_text_exports(self):
+        source = self.folder / 'anotacoes.md'
+        source.write_text('# Documento\n\nConteudo sintetico de demonstracao.\n')
+        for kind in ('docx', 'epub', 'odt', 'rtf', 'html', 'txt'):
+            self.assertIn(kind, dict(self.module.available_actions([source])))
+            output = self.module.convert_files(kind, [source])[0]
+            self.assertGreater(output.stat().st_size, 0)
+            if kind in ('docx','epub','odt'):
+                self.assertTrue(zipfile.is_zipfile(output))
+        output = self.module.convert_files('docx', [self.pdf])[0]
+        with zipfile.ZipFile(output) as archive:
+            self.assertIn(b'DEMONSTRACAO', archive.read('word/document.xml'))
+
+    def test_missing_pandoc_hides_document_pipelines_that_need_it(self):
+        source = self.folder / 'notas.md'
+        source.write_text('# Exemplo\n\nDEMONSTRACAO\n')
+        lookup = self.module.tool
+        with patch.object(self.module,'tool',side_effect=lambda name: None if name == 'pandoc' else lookup(name)):
+            self.assertFalse(self.module.available_actions([source]))
+            with self.assertRaises(ValueError):
+                self.module.convert_files('docx',[source])
+
+    def test_worker_uses_the_discovered_executable_path(self):
+        executable = self.folder / 'conversor-local'
+        marker = self.folder / 'executado'
+        executable.write_text('#!/bin/sh\nprintf ok > "$1"\n')
+        executable.chmod(0o755)
+        with patch.object(self.module,'tool',return_value=str(executable)):
+            self.module._run(['conversor-local',str(marker)])
+        self.assertEqual(marker.read_text(),'ok')
+
+    def test_subtitle_conversion_preserves_timing_and_text(self):
+        source = self.folder / 'legenda.srt'
+        source.write_text('1\n00:00:01,000 --> 00:00:02,500\nTexto de demonstracao\n\n')
+        output = self.module.convert_files('vtt', [source])[0]
+        text = output.read_text()
+        self.assertIn('WEBVTT', text)
+        self.assertIn('00:01.000 --> 00:02.500', text)
+        self.assertIn('Texto de demonstracao', text)
+        output = self.module.convert_files('txt', [source])[0]
+        self.assertIn('Texto de demonstracao', output.read_text())
+
+    def test_archive_conversion_preserves_contents_without_extracting(self):
+        source = self.folder / 'pacote.zip'
+        with zipfile.ZipFile(source,'w') as archive:
+            archive.writestr('pasta/arquivo.txt','DADOS SINTETICOS')
+        compressed = self.module.convert_files('tar.gz', [source])[0]
+        zipped = self.module.convert_files('zip', [compressed])[0]
+        with zipfile.ZipFile(zipped) as archive:
+            self.assertEqual(archive.read('pasta/arquivo.txt'), b'DADOS SINTETICOS')
+        self.assertFalse((self.folder/'pasta').exists())
+
+    def test_archive_formats_and_single_gzip_file(self):
+        import gzip
+        source = self.folder / 'documento.txt.gz'
+        with gzip.open(source, 'wb') as output:
+            output.write(b'DADOS SINTETICOS')
+        for kind in ('zip','tar','tar.gz','tar.bz2','tar.xz','7z'):
+            output = self.module.convert_files(kind, [source])[0]
+            result = subprocess.check_output(['bsdtar','-xOf',str(output),'./documento.txt'])
+            self.assertEqual(result,b'DADOS SINTETICOS')
+
+    def test_office_documents_to_pdf(self):
+        if not self.module.tool('libreoffice'):
+            self.skipTest('LibreOffice não instalado')
+        source = self.folder / 'documento.md'
+        source.write_text('# Titulo\n\nCONTEUDO SINTETICO.\n')
+        docx = self.module.convert_files('docx', [source])[0]
+        pdf = self.module.convert_files('pdf', [docx])[0]
+        text = subprocess.check_output(['pdftotext',str(pdf),'-'],text=True)
+        self.assertIn('CONTEUDO SINTETICO',text)
+
+    def test_word_html_keeps_embedded_images_in_one_file(self):
+        import base64
+        if not self.module.tool('libreoffice'):
+            self.skipTest('LibreOffice não instalado')
+        source = self.folder / 'imagem.md'
+        encoded = base64.b64encode(self.image.read_bytes()).decode()
+        source.write_text(f'# Exemplo\n\n![Imagem](data:image/png;base64,{encoded})\n')
+        docx = self.module.convert_files('docx', [source])[0]
+        with zipfile.ZipFile(docx) as archive:
+            self.assertTrue(any(name.startswith('word/media/') for name in archive.namelist()))
+        outputs = self.module.convert_files('html', [docx])
+        self.assertEqual(len(outputs),1)
+        self.assertIn('data:image/', outputs[0].read_text())
+
+    def test_spreadsheet_conversion_exports_every_sheet(self):
+        if not self.module.tool('libreoffice'):
+            self.skipTest('LibreOffice não instalado')
+        source = self.folder / 'tabelas.fods'
+        source.write_text('''<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+ xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
+ xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+ office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.spreadsheet">
+ <office:body><office:spreadsheet>
+ <table:table table:name="Primeira"><table:table-row>
+ <table:table-cell office:value-type="string"><text:p>ALFA</text:p></table:table-cell>
+ </table:table-row></table:table>
+ <table:table table:name="Segunda"><table:table-row>
+ <table:table-cell office:value-type="string"><text:p>BETA</text:p></table:table-cell>
+ </table:table-row></table:table>
+ </office:spreadsheet></office:body></office:document>''')
+        xlsx = self.module.convert_files('xlsx', [source])[0]
+        self.assertTrue(zipfile.is_zipfile(xlsx))
+        outputs = self.module.convert_files('csv',[xlsx])
+        self.assertEqual(len(outputs),2)
+        self.assertTrue(any('ALFA' in p.read_text() for p in outputs))
+        self.assertTrue(any('BETA' in p.read_text() for p in outputs))
+
+    def test_presentations_export_all_slides(self):
+        if not self.module.tool('libreoffice'):
+            self.skipTest('LibreOffice não instalado')
+        source = self.folder / 'slides.md'
+        source.write_text('# PRIMEIRO\n\nUM\n\n# SEGUNDO\n\nDOIS\n')
+        slides = self.folder / 'slides.pptx'
+        subprocess.run([self.module.tool('pandoc'),'--sandbox','-f','markdown','-t','pptx',
+                        '-o',str(slides),str(source)],check=True,capture_output=True)
+        outputs = self.module.convert_files('png',[slides])
+        self.assertEqual(len(outputs),2)
 
     def test_failure_leaves_no_output_and_rejects_unsupported_conversion(self):
         invalid = self.folder / 'quebrada.png'

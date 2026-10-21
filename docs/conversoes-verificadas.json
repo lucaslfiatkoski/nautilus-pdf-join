@@ -1,0 +1,1731 @@
+{
+  "verificadas": 345,
+  "pares": [
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "png",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jpg",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "webp",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "heic",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tiff",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "avif",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "bmp",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "gif",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "ico",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jp2",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "jxl",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "qoi",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "tga",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "png"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "jpg"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "webp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "heic"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "tiff"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "avif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "bmp"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "gif"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "ico"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "jp2"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "jxl"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "qoi"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "tga"
+    },
+    {
+      "categoria": "imagem",
+      "origem": "svg",
+      "destino": "pdf"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wav",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "mp3",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "m4a",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "flac",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "ogg",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "opus",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "wma"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aiff",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "wma",
+      "destino": "aac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "wav"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "flac"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "opus"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "áudio",
+      "origem": "aac",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "mov"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "mkv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "webm"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "avi"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "wmv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mp4",
+      "destino": "aac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "mp4"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "mkv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "webm"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "avi"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "wmv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mov",
+      "destino": "aac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "mp4"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "mov"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "webm"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "avi"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "wmv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "mkv",
+      "destino": "aac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "mp4"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "mov"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "mkv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "avi"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "wmv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "webm",
+      "destino": "aac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "mp4"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "mov"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "mkv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "webm"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "wmv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "avi",
+      "destino": "aac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "mp4"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "mov"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "mkv"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "webm"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "avi"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "gif"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "mp3"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "m4a"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "wav"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "flac"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "ogg"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "opus"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "aiff"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "wma"
+    },
+    {
+      "categoria": "vídeo",
+      "origem": "wmv",
+      "destino": "aac"
+    }
+  ],
+  "falhas": []
+}

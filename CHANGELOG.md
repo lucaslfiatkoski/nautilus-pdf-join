@@ -2,6 +2,8 @@
 
 ## Em desenvolvimento — 2026-10-21
 
+- Posicionamento da roda próximo ao ponteiro, com conversão de coordenadas da janela para a área de arquivos e fallback central.
+
 - Ampliação para 345 pares reais de mídia verificados, sem aliases ou cópias no mesmo formato.
 - HEIC, BMP, GIF, ICO, JPEG 2000, JPEG XL, QOI, TGA, M4A, Opus, AIFF, WMA, AAC, MOV, MKV, AVI e WMV.
 - Documentos/e-books com Pandoc, Office com LibreOffice, legendas com FFmpeg e compactados com libarchive.

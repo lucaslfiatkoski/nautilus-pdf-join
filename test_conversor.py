@@ -5,6 +5,7 @@ import tempfile
 import unittest
 import zipfile
 from unittest.mock import patch
+from types import SimpleNamespace
 
 import cairo
 import gi
@@ -334,6 +335,21 @@ class ConversionTests(unittest.TestCase):
         self.assertIsNone(hit(160, 160, 4))
         self.assertIsNone(hit(0, 0, 4))
         self.assertIsNone(hit(160, 40, 0))
+
+    def test_wheel_anchor_uses_pointer_in_parent_coordinates(self):
+        surface = object()
+        pointer = SimpleNamespace(get_surface_at_position=lambda: (surface,100.0,120.0))
+        seat = SimpleNamespace(get_pointer=lambda: pointer)
+        display = SimpleNamespace(get_default_seat=lambda: seat)
+        native = SimpleNamespace(get_surface=lambda: surface, get_surface_transform=lambda: (2.0,3.0),
+                                 compute_point=lambda parent,p: (True,SimpleNamespace(x=p.x-30,y=p.y-40)))
+        parent = SimpleNamespace(get_native=lambda: native, get_display=lambda: display,
+                                 get_width=lambda: 800, get_height=lambda: 600)
+        point = self.module.pointer_anchor(parent)
+        self.assertEqual((point.x,point.y),(72,83))
+        pointer.get_surface_at_position = lambda: (None,0,0)
+        point = self.module.pointer_anchor(parent)
+        self.assertEqual((point.x,point.y),(400,300))
 
 
 if __name__ == '__main__':

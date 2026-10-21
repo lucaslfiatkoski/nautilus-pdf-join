@@ -6,6 +6,8 @@ Junte dois ou mais PDFs pelo menu de botão direito do **Nautilus (Arquivos do G
 
 Selecione um ou vários arquivos e **toque Shift e solte**, sem arrastar. Clique no formato desejado no círculo. Também é possível usar setas e Enter; Escape ou um clique fora fecham o círculo. Para vários PDFs, o círculo oferece **Juntar PDFs**, usando a mesma união e as mesmas regras do menu existente.
 
+A roda abre junto ao ponteiro do mouse. O GTK ajusta a posição nas bordas da tela; se o ponteiro estiver fora da janela, a roda usa o centro da área de arquivos.
+
 Shift+clique e Shift+setas continuam selecionando arquivos. O círculo não abre ao usar Shift combinado com outra tecla, durante cliques ou dentro de campos de texto. Funciona nas visualizações de grade e lista do Nautilus.
 
 Quando há mais de seis destinos, use **‹ / › no centro do círculo**, a roda do mouse ou Page Up / Page Down para trocar de página. Todos os destinos continuam acessíveis sem sobrepor os nomes.

@@ -1,5 +1,9 @@
 # Continuidade do projeto
 
+## Posição da roda — 2026-10-21
+
+O usuário solicitou que a roda abrisse perto do ponteiro, com captura da roda distante do arquivo selecionado. `pointer_anchor` lê a posição atual pelo GDK, confere se a superfície pertence à janela e usa a transformação da superfície e `Gtk.Widget.compute_point` para obter coordenadas na área de arquivos. O popover é deslocado em metade do diâmetro para aproximar o centro do cursor. Sem posição válida na janela, usa o centro da área de arquivos. Teste de regressão cobre deslocamento de coordenadas e fallback. As pastas abertas são registradas só para restaurar a navegação após atualizar o Nautilus, sem ler documentos.
+
 ## Ampliação das conversões — 2026-10-21
 
 Após a primeira instalação, o usuário pediu a variedade do Tangerine original, com mais de 200 conversões. A ampliação mantém o gesto seleciona + Shift sozinho, sem arrastar, e o círculo agora tem páginas de seis destinos. Troca de página por ‹/› no centro, roda do mouse ou Page Up/Page Down.

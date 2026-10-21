@@ -16,8 +16,9 @@ import gi
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Gdk', '4.0')
+gi.require_version('Graphene', '1.0')
 gi.require_version('Nautilus', '4.1')
-from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Nautilus
+from gi.repository import Gdk, Gio, GLib, GObject, Graphene, Gtk, Nautilus
 
 IMAGE_OUTPUTS = ('png', 'jpg', 'webp', 'heic', 'tiff', 'avif', 'bmp', 'gif',
                  'ico', 'jp2', 'jxl', 'qoi', 'tga', 'pdf')
@@ -115,6 +116,25 @@ def action_page(actions, page):
     return actions[page * 6:(page + 1) * 6], page, count
 
 
+def pointer_anchor(parent):
+    point = Gdk.Rectangle()
+    point.x, point.y = parent.get_width() // 2, parent.get_height() // 2
+    point.width = point.height = 1
+    native = parent.get_native()
+    seat = parent.get_display().get_default_seat()
+    pointer = seat.get_pointer() if seat else None
+    if native and pointer:
+        surface, x, y = pointer.get_surface_at_position()
+        if surface == native.get_surface():
+            dx, dy = native.get_surface_transform()
+            coordinates = Graphene.Point()
+            coordinates.init(x + dx, y + dy)
+            success, position = native.compute_point(parent, coordinates)
+            if success:
+                point.x, point.y = round(position.x), round(position.y)
+    return point
+
+
 class FormatWheel:
     def __init__(self, parent, paths):
         self.paths = paths
@@ -124,11 +144,9 @@ class FormatWheel:
         self.popover = Gtk.Popover(has_arrow=False, autohide=True)
         self.popover.add_css_class('conversion-wheel')
         self.popover.set_parent(parent)
-        point = Gdk.Rectangle()
-        point.x, point.y = parent.get_width() // 2, parent.get_height() // 2
-        point.width = point.height = 1
-        self.popover.set_pointing_to(point)
+        self.popover.set_pointing_to(pointer_anchor(parent))
         self.popover.set_position(Gtk.PositionType.BOTTOM)
+        self.popover.set_offset(0, -160)
         self.popover.connect('closed', lambda popover: popover.unparent())
         fixed = Gtk.Fixed(width_request=320, height_request=320)
         self.popover.set_child(fixed)

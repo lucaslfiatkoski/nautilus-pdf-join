@@ -66,6 +66,8 @@ Para verificar a interface, crie dois PDFs de demonstração com conteúdo ident
 
 ## Limites técnicos conhecidos
 
+- Ctrl + rolagem é capturado no `Gtk.ScrolledWindow`; `Gtk.EventControllerMotion` guarda a posição relativa à área visível. O zoom calcula o ponto normalizado sob o ponteiro usando os ajustes atuais, espera a nova alocação do canvas e então reposiciona os ajustes. Eventos sem Ctrl seguem para a rolagem normal. O teste GTK verifica as coordenadas nos dois sentidos após rolar a página, com tolerância de um pixel.
+
 - A janela de recorte coloca o canvas em `Gtk.ScrolledWindow`; o zoom varia de 0,5 a 4 em relação ao ajuste à janela. Retângulos permanecem normalizados, e eventos de arraste usam coordenadas locais do canvas, inclusive com rolagem. `CropDocument.preview(page, zoom)` aumenta a resolução do PDF até 4096 pixels por dimensão; a gravação continua usando o documento original. O teste GTK verifica ampliar, rolar, selecionar e retornar ao ajuste.
 
 - `Recortar` só aparece para um arquivo de imagem/PDF. A roda inicia `/usr/bin/python3 recortar.py CAMINHO`; o módulo não executa a interface ao ser importado pelo carregador de extensões. O instalador e o desinstalador incluem o terceiro módulo.

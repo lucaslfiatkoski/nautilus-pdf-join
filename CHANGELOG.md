@@ -2,6 +2,8 @@
 
 ## Em desenvolvimento — 2026-10-21
 
+- Ctrl + rolagem amplia e reduz a prévia em torno do ponteiro, ajustando a posição da página após o zoom.
+
 - Zoom de 50% a 400% na janela de recorte, com rolagem, ajuste à janela e nova renderização do PDF para ampliar os detalhes sem alterar a seleção.
 
 - Recortar uma imagem ou PDF pela roda: janela com prévia, seleção arrastável e ajustes em porcentagem; cópia exclusiva PNG/PDF.

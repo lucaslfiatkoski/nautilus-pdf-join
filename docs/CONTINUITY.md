@@ -1,5 +1,13 @@
 # Continuidade do projeto
 
+## Zoom no ponteiro — 2026-10-21
+
+O usuário pediu Ctrl + rolagem para ampliar onde o mouse está. A janela agora captura o gesto com Ctrl, guarda o ponto normalizado sob o ponteiro e restaura sua posição na área visível após a nova alocação do canvas. As barras respeitam os limites de rolagem; sem Ctrl, o evento segue para a navegação normal. Mantidos limites de zoom e seleção normalizada. O teste GTK exercita ampliar/reduzir após rolar, verifica o ponto sob o ponteiro com tolerância de um pixel e confirma que a seleção não mudou.
+
+A revisão identificou uma corrida entre o término da renderização e a realocação do canvas: um segundo evento podia capturar coordenadas intermediárias. Foi corrigida mantendo o zoom pendente até terminar o reposicionamento; o teste segura essa etapa deliberadamente, envia outro evento e verifica que a âncora não foi substituída. Os controles só voltam a aceitar mudanças após concluir o ajuste.
+
+Verificação final: `RUN_WHEEL_UI=1 python3 -m unittest -v` executou 43 testes, 42 passaram e a matriz opcional foi pulada. Compilação, `sh -n` e `git diff --check` passaram. O revisor repetiu o teste GTK e confirmou a correção. Nenhuma injeção de eventos físicos foi usada. Instalação sincronizada e comparada byte a byte; apenas a demonstração sintética foi reaberta com a versão nova. Backup anterior em `~/.local/share/nautilus-pdf-join/backups/antes-do-zoom-no-ponteiro-2026-10-21/`.
+
 ## Zoom no recorte — 2026-10-21
 
 O usuário pediu zoom no PDF dentro da janela de recorte. Foram adicionados −, + e Ajustar à janela, entre 50% e 400% do ajuste inicial, com `Gtk.ScrolledWindow` para navegação. A seleção permanece normalizada, independente do zoom/rolagem. PDFs são renderizados novamente em tarefa de fundo para aumentar o detalhe, com limite de 4096 pixels por dimensão. O zoom também funciona para imagens usando os pixels já decodificados. A mesma escala continua ao trocar de página; a área do canvas é recalculada para o tamanho da página exibida. Nenhuma dependência nova.

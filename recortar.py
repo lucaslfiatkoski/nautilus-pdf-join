@@ -9,7 +9,8 @@ import cairo
 import gi
 
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gio, GLib, Gtk
+gi.require_version('Gdk', '4.0')
+from gi.repository import Gdk, Gio, GLib, Gtk
 
 
 def fit_rect(width, height, available_width, available_height):
@@ -124,6 +125,8 @@ class CropWindow(Gtk.ApplicationWindow):
         self.document, self.preview_image = None, None
         self.page, self.busy, self.closed = 0, False, False
         self.zoom = 1
+        self.pointer, self.zoom_anchor = None, None
+        self.zoom_layout_pending = False
         self.start = None
         self.connect('close-request', self.closing)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
@@ -136,7 +139,7 @@ class CropWindow(Gtk.ApplicationWindow):
         self.zoom_in = Gtk.Button(label='+', tooltip_text='Aumentar zoom')
         self.zoom_fit = Gtk.Button(label='Ajustar à janela')
         self.zoom_label = Gtk.Label(label='100%', hexpand=True,
-                                   tooltip_text='Escala em relação à página ajustada à janela')
+                                   tooltip_text='Escala em relação à página ajustada à janela. Ctrl + rolagem amplia no ponteiro.')
         self.zoom_out.connect('clicked', lambda button: self.change_zoom(self.zoom / 1.25))
         self.zoom_in.connect('clicked', lambda button: self.change_zoom(self.zoom * 1.25))
         self.zoom_fit.connect('clicked', lambda button: self.change_zoom(1))
@@ -151,6 +154,17 @@ class CropWindow(Gtk.ApplicationWindow):
         self.canvas.update_property([Gtk.AccessibleProperty.LABEL], ['Prévia da área de recorte'])
         self.scroller.set_child(self.canvas)
         box.append(self.scroller)
+        motion = Gtk.EventControllerMotion()
+        motion.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        motion.connect('enter', self.pointer_motion)
+        motion.connect('motion', self.pointer_motion)
+        motion.connect('leave', lambda controller: setattr(self, 'pointer', None))
+        self.scroller.add_controller(motion)
+        scroll = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.VERTICAL)
+        scroll.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        scroll.connect('scroll', self.zoom_scroll)
+        self.scroller.add_controller(scroll)
+        self.canvas.connect('resize', lambda *args: GLib.idle_add(self.restore_zoom_anchor))
         self.drag = Gtk.GestureDrag()
         self.drag.set_button(1)
         self.drag.connect('drag-begin', self.begin)
@@ -240,7 +254,7 @@ class CropWindow(Gtk.ApplicationWindow):
         self.canvas.queue_draw()
 
     def refresh(self):
-        ready = self.document is not None and not self.busy
+        ready = self.document is not None and not self.busy and not self.zoom_layout_pending
         valid = False
         if len(self.fields) == 4:
             try:
@@ -275,7 +289,7 @@ class CropWindow(Gtk.ApplicationWindow):
             self.refresh()
 
     def change_page(self, step):
-        if self.busy or not self.document:
+        if self.busy or self.zoom_layout_pending or not self.document:
             return
         page = self.page + step
         if not 0 <= page < self.document.count:
@@ -289,19 +303,56 @@ class CropWindow(Gtk.ApplicationWindow):
             self.canvas.queue_draw()
         self.run_job(lambda: self.document.preview(page, self.zoom), shown)
 
-    def change_zoom(self, zoom):
-        if self.busy or self.document is None:
+    def pointer_motion(self, controller, x, y):
+        self.pointer = x, y
+
+    def zoom_scroll(self, controller, dx, dy):
+        if not controller.get_current_event_state() & Gdk.ModifierType.CONTROL_MASK or not dy:
+            return False
+        if self.pointer is not None:
+            self.change_zoom(self.zoom * 1.25 ** max(-4, min(4, -dy)), self.pointer)
+        return True
+
+    def change_zoom(self, zoom, anchor=None):
+        if self.busy or self.zoom_layout_pending or self.document is None:
             return
         zoom = min(4, max(.5, zoom))
         if zoom == self.zoom:
             return
+        point = None
+        if anchor is not None:
+            left, top, w, h = self.image_bounds()
+            x, y = anchor
+            point = ((x + self.scroller.get_hadjustment().get_value() - left) / w,
+                     (y + self.scroller.get_vadjustment().get_value() - top) / h, x, y)
         def shown(image):
             self.zoom, self.preview_image = zoom, image
+            self.zoom_anchor = point
+            self.zoom_layout_pending = True
             self.start = None
             self.resize_canvas()
+            GLib.idle_add(self.restore_zoom_anchor)
             self.status.set_text('Escolha a área e clique em Salvar cópia.')
         self.status.set_text('Atualizando zoom…')
         self.run_job(lambda: self.document.preview(self.page, zoom), shown)
+
+    def restore_zoom_anchor(self):
+        if self.closed or not self.zoom_layout_pending:
+            return False
+        viewport = self.scroller.get_child()
+        # Ajustes de rolagem só podem ser aplicados depois da nova alocação do canvas.
+        if (self.canvas.get_width() != max(viewport.get_width(), self.canvas.get_content_width()) or
+                self.canvas.get_height() != max(viewport.get_height(), self.canvas.get_content_height())):
+            return False
+        if self.zoom_anchor is not None:
+            nx, ny, x, y = self.zoom_anchor
+            left, top, w, h = self.image_bounds()
+            self.scroller.get_hadjustment().set_value(left + nx * w - x)
+            self.scroller.get_vadjustment().set_value(top + ny * h - y)
+        self.zoom_anchor = None
+        self.zoom_layout_pending = False
+        self.refresh()
+        return False
 
     def resize_canvas(self):
         width, height = self.document.size(self.page)

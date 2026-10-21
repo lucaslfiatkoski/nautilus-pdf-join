@@ -6,6 +6,8 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import cairo
 import gi
@@ -161,7 +163,8 @@ class CropTests(unittest.TestCase):
             selected = window.rectangle()
             for _ in range(4):
                 window.zoom_in.emit('clicked')
-                until(lambda: not window.busy)
+                until(lambda: not window.busy and not window.zoom_layout_pending)
+                until(lambda: window.canvas.get_width() >= window.canvas.get_content_width())
             until(lambda: window.canvas.get_width() > window.scroller.get_width())
             self.assertGreater(window.zoom, 2)
             self.assertEqual(window.rectangle(), selected)
@@ -174,8 +177,37 @@ class CropTests(unittest.TestCase):
             window.drag.emit('drag-end', w * .5, h * .5)
             for actual, expected in zip(window.rectangle(), selected):
                 self.assertAlmostEqual(actual, expected, places=2)
+            from gi.repository import Gdk
+            pointer = window.scroller.get_width() * .65, window.scroller.get_height() * .6
+            window.pointer = pointer
+            ctrl = SimpleNamespace(get_current_event_state=lambda: Gdk.ModifierType.CONTROL_MASK)
+            plain = SimpleNamespace(get_current_event_state=lambda: Gdk.ModifierType(0))
+            old_zoom = window.zoom
+            self.assertFalse(window.zoom_scroll(plain, 0, -1))
+            self.assertEqual(window.zoom, old_zoom)
+            vadj = window.scroller.get_vadjustment()
+            x, y, w, h = window.image_bounds()
+            point = ((pointer[0] + hadj.get_value() - x) / w,
+                     (pointer[1] + vadj.get_value() - y) / h)
+            for direction in (-1, 1):
+                window.pointer = pointer
+                with patch.object(window, 'restore_zoom_anchor', return_value=False):
+                    self.assertTrue(window.zoom_scroll(ctrl, 0, direction))
+                    until(lambda: not window.busy)
+                    pending_anchor = window.zoom_anchor
+                    self.assertIsNotNone(pending_anchor)
+                    # Um segundo evento não pode usar o canvas ainda na escala anterior.
+                    self.assertTrue(window.zoom_scroll(ctrl, 0, direction))
+                    self.assertFalse(window.busy)
+                    self.assertEqual(window.zoom_anchor, pending_anchor)
+                GLib.idle_add(window.restore_zoom_anchor)
+                until(lambda: not window.busy and window.zoom_anchor is None)
+                x, y, w, h = window.image_bounds()
+                self.assertAlmostEqual(x + point[0] * w - hadj.get_value(), pointer[0], delta=1)
+                self.assertAlmostEqual(y + point[1] * h - vadj.get_value(), pointer[1], delta=1)
+                self.assertEqual(window.rectangle(), selected)
             window.zoom_fit.emit('clicked')
-            until(lambda: not window.busy and window.zoom == 1)
+            until(lambda: not window.busy and not window.zoom_layout_pending and window.zoom == 1)
             until(lambda: window.canvas.get_width() <= window.scroller.get_width())
             window.next_button.emit('clicked')
             until(lambda: window.page == 1 and not window.busy)

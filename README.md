@@ -26,6 +26,8 @@ Selecione **um arquivo**, toque e solte Shift e escolha **Recortar**, na primeir
 
 Use **− / +** para diminuir ou ampliar a prévia, de 50% a 400% em relação à página ajustada à janela. Quando ampliada, use a rolagem e as barras horizontal/vertical para navegar. **Ajustar à janela** volta a mostrar a página inteira. O zoom mantém a seleção e não altera o tamanho do recorte salvo; PDFs recebem uma prévia com mais detalhe ao ampliar.
 
+Segure **Ctrl** e role sobre a prévia para ampliar/reduzir em torno do ponteiro. A posição do documento acompanha o ponto sob o mouse, respeitando os limites de rolagem nas bordas. Sem Ctrl, a roda continua rolando a página normalmente.
+
 Em PDFs, navegue por **Anterior / Próxima**. Por padrão, só a página exibida recebe o recorte; marque **Aplicar a mesma área proporcional a todas as páginas** para recortar o documento inteiro. Em páginas de tamanhos diferentes, a seleção usa a mesma proporção em cada página.
 
 **Salvar cópia** cria `<nome>_recorte.pdf` ou `<nome>_recorte.png` na pasta do original. Nomes ocupados recebem `_2`, `_3` etc. O original fica intacto. Fechar a janela sem salvar não cria resultado; uma gravação já iniciada termina mesmo se a janela for fechada.

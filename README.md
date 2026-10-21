@@ -1,5 +1,7 @@
 # Nautilus PDF Join
 
+Esta versão com círculo de conversões é mantida em [lucaslfiatkoski/nautilus-pdf-join](https://github.com/lucaslfiatkoski/nautilus-pdf-join), a partir do [projeto original](https://github.com/pir0c0pter0/nautilus-pdf-join).
+
 Junte dois ou mais PDFs pelo menu de botão direito do **Nautilus (Arquivos do GNOME)**. O resultado é criado automaticamente na pasta do primeiro PDF em ordem alfabética, com o final **`_join.pdf`**. Os arquivos originais são preservados.
 
 ## Círculo de conversão com Shift
@@ -129,7 +131,7 @@ Nesta instalação, Pandoc 3.12.1 e LibreOffice 26.8.1 foram obtidos das distrib
 ### 2. Baixe e instale a extensão para seu usuário
 
 ```bash
-git clone https://github.com/pir0c0pter0/nautilus-pdf-join.git
+git clone https://github.com/lucaslfiatkoski/nautilus-pdf-join.git
 cd nautilus-pdf-join
 ./install.sh
 ```

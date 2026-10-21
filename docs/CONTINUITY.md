@@ -1,5 +1,9 @@
 # Continuidade do projeto
 
+## Novo repositório — 2026-10-21
+
+O usuário autorizou criar um repositório público na conta conectada após o envio ao projeto original retornar HTTP 403. O novo destino é `https://github.com/lucaslfiatkoski/nautilus-pdf-join`, com a versão atual na branch `main`. O remoto original foi preservado como `upstream`; `origin` aponta para o novo repositório. O histórico e a licença foram preservados, e o comando de instalação do README aponta para a nova cópia. Nenhum comportamento do código mudou nesta publicação.
+
 ## Ordem dos destinos — 2026-10-21
 
 O usuário pediu as opções mais utilizadas primeiro. Foram priorizados formatos comuns por categoria, sem coletar frequência de uso: imagens JPG/PNG/PDF; PDFs DOCX/JPG/PNG/texto, com Juntar PDFs primeiro nas seleções múltiplas; documentos PDF/DOCX/TXT; planilhas XLSX/PDF/CSV; vídeos MP4/MP3/GIF; compactados ZIP/7Z/TAR.GZ. Os outros destinos continuam nas páginas seguintes. A mudança é de ordenação, sem alterar os pipelines de conversão.
